@@ -1,0 +1,24 @@
+.Sidebar {
+    position: fixed;
+    width: 280px;
+    max-width: 70%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 200;
+    background: #eee;
+    padding: 2rem 2rem;
+    transition: all 400ms cubic-bezier(.15,.3,.17,1.3);
+}
+@media (min-width:500px) {
+    .Sidebar {
+        display: none;
+    }
+}
+
+.Open {
+    transform: translateX(-15px);
+}
+.Close {
+    transform: translateX(-100%);
+}
