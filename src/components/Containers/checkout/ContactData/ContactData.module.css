@@ -1,0 +1,25 @@
+.ContactData {
+    margin: 20px auto;
+    width: 80%;
+    text-align: center;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.3);
+    padding: 0.8rem;
+}
+.ContactData form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.ContactData form input {
+    padding: 10px;
+    margin: 0.8rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ddd;
+}
+
+@media(min-width:600px) {
+    .ContactData {
+        width: 500px;
+    }
+}
