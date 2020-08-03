@@ -5,11 +5,11 @@ import classes from './NavItems.module.css';
 const NavItems = () => {
     return (
         <ul className={classes.NavItems}>
-            <NavItem link="/" active >
+            <NavItem link="/" exact >
                 Burger Builder
             </NavItem>
-            <NavItem link="/checkout" >
-                Checkout
+            <NavItem link="/orders">
+                Orders
             </NavItem>
         </ul>
     )

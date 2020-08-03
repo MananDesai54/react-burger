@@ -101,7 +101,7 @@ class BurgerBuilder extends Component {
         for(let ingredient in this.state.ingredients) {
             queryParams.push(encodeURIComponent(ingredient)+'='+encodeURIComponent(this.state.ingredients[ingredient]));
         }
-        queryParams.push('price='+this.state.price);
+        queryParams.push('price='+this.state.price.toFixed(2));
         const queryString = queryParams.join('&');
 
         this.props.history.push({

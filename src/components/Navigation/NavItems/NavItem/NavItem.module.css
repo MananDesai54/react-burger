@@ -19,6 +19,7 @@
 .NavItem a.active {
     background: #8f5c2c;
     color: #eee ;
+    border-bottom-width: 2px;
 }
 
 @media (max-width:500px) {
