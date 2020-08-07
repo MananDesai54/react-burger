@@ -72,10 +72,13 @@ class ContactData extends Component {
                         },
                     ]
                 },
+                validation:{},
+                valid:true,
                 value:'fastest'
             }
         },
-        loading:false
+        loading:false,
+        disabled:true
     }
 
     orderHandler = (e) =>{
@@ -121,10 +124,16 @@ class ContactData extends Component {
         updatedField.value = e.target.value;
         formData[e.target.name] = updatedField;
         formData[e.target.name].valid = this.checkValidity(this.state.orderForm[e.target.name].validation,e.target.value);
-        console.log(formData[e.target.name]);
+
+        let formValid = true;
+        for(let i in formData) {
+            formValid = formData[i].valid && formValid
+        }
+
         this.setState({
             orderForm:{
-                ...formData
+                ...formData,
+                disabled:!formValid
             }
         })
     }
@@ -174,6 +183,7 @@ class ContactData extends Component {
                         <Button 
                             btnType="Success"
                             clicked={this.orderHandler}
+                            // disabled={this.state.disabled}
                         >
                             Order
                         </Button>
