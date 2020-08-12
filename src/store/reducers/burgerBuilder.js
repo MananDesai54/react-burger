@@ -1,13 +1,9 @@
-import * as Actions from './actions';
+import * as Actions from '../actions/actionTypes';
 
 const initState = {
-    ingredients:{
-        salad:0,
-        cheese:0,
-        bacon:0,
-        meat:0
-    },
-    price:4
+    ingredients:null,
+    price:4,
+    error:false
 }
 
 const INGREDIENT_PRICE = {
@@ -39,6 +35,28 @@ export default function(state=initState,action) {
                 },
                 price:state.price + INGREDIENT_PRICE[action.ingredientName]
             }
+
+        case Actions.SET_INGREDIENT:
+            return {
+                ...state,
+                ingredients:action.ingredients,
+                error:false,
+                price:4
+            }
+
+        case Actions.FETCH_INGREDIENTS_FAILED:
+            return {
+                ...state,
+                error:true
+            }
+        
+        case Actions.RESET_INGREDIENTS:
+            return {
+                ...state,
+                ingredients:null,
+                price:4
+            }
+
         default:
             return state;
     }

@@ -5,6 +5,8 @@ import axios from '../../../../axios-order';
 import Spinner from '../../../UI/Spinner/Spinner';
 import Input from '../../../UI/Input/Input';
 import { connect } from 'react-redux';
+import withError from '../../../../HOC/withError';
+import * as Order from '../../../../store/actions/index';
 
 class ContactData extends Component {
 
@@ -78,15 +80,12 @@ class ContactData extends Component {
                 value:'fastest'
             }
         },
-        loading:false,
         disabled:true
     }
 
     orderHandler = (e) =>{
         e.preventDefault();
-        this.setState({
-            loading:true
-        })
+
         const orderDetails = {};
         Object.keys(this.state.orderForm).forEach(key=>{
             orderDetails[key] = this.state.orderForm[key].value;
@@ -96,22 +95,23 @@ class ContactData extends Component {
             price:this.props.price.toFixed(2),
             customer:orderDetails
         }
-        axios.post('/orders.json',order)
-             .then(response=> {
-                this.setState({
-                    loading:false,
-                    purchasing:false
-                });
-                this.props.history.push('/');
-             })
-             .catch(err=>{
-                 console.log(err);
-                 this.setState({
-                     loading:false,
-                     purchasing:false
-                 });
-                 this.props.history.push('/');
-             });
+        this.props.onPurchaseBurger(order);
+        // axios.post('/orders.json',order)
+        //      .then(response=> {
+        //         this.setState({
+        //             loading:false,
+        //             purchasing:false
+        //         });
+        //         this.props.history.push('/');
+        //      })
+        //      .catch(err=>{
+        //          console.log(err);
+        //          this.setState({
+        //              loading:false,
+        //              purchasing:false
+        //          });
+        //          this.props.history.push('/');
+        //      });
     }
 
     handleInput = (e)=>{
@@ -173,7 +173,7 @@ class ContactData extends Component {
 
         return (
             <div className={classes.ContactData}>
-            {this.state.loading ? <Spinner /> :<Fragment> 
+            {this.props.loading ? <Spinner /> :<Fragment> 
                     <h4>Enter Contact Data</h4>
                     <form>
                         {/* <Input elementType="..." elementConfig="..." value="..." />
@@ -198,9 +198,16 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
     return {
-        ingredients:state.ingredients,
-        price:state.price
+        ingredients:state.burger.ingredients,
+        price:state.burger.price,
+        loading:state.order.loading
     }
 }
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+    return {
+        onPurchaseBurger:(orderData) => {dispatch(Order.purchaseBurger(orderData))}
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(withError(ContactData,axios));

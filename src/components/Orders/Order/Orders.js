@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Order from '../Order';
 import axios from '../../../axios-order';
 import withError from '../../../HOC/withError';
+import { connect } from 'react-redux';
+import * as Actions from '../../../store/actions/index';
+import Spinner from '../../UI/Spinner/Spinner';
 
 class Orders extends Component {
 
@@ -11,32 +14,35 @@ class Orders extends Component {
     }
 
     componentDidMount() {
-        axios.get('/orders.json')
-            .then(res=>{
-                const fetchOrders = [];
-                for(let key in res.data) {
-                    fetchOrders.push({
-                        ...res.data[key],
-                        id:key
-                    });
-                }
-                this.setState({
-                    loading:false,
-                    orders:fetchOrders
-                })
-            })
-            .catch(err=>{
-                this.setState({
-                    loading:false
-                })
-            })
+        // axios.get('/orders.json')
+        //     .then(res=>{
+        //         const fetchOrders = [];
+        //         for(let key in res.data) {
+        //             fetchOrders.push({
+        //                 ...res.data[key],
+        //                 id:key
+        //             });
+        //         }
+        //         this.setState({
+        //             loading:false,
+        //             orders:fetchOrders
+        //         })
+        //     })
+        //     .catch(err=>{
+        //         this.setState({
+        //             loading:false
+        //         })
+        //     })
+        if(this.props.orders.length === 0) {
+            this.props.fetchOrder();
+        }
     }
 
     render() {
         return (
             <div>
-                {this.state.orders.length > 0 
-                    ? this.state.orders.map((order)=>(
+                {this.props.orders.length > 0 
+                    ? this.props.orders.map((order)=>(
                         <Order 
                             key={order.id} 
                             order={order} 
@@ -46,10 +52,24 @@ class Orders extends Component {
                     ))
                     : <p style={{
                         textAlign:'center'
-                    }}>No Orders</p>}
+                    }}>
+                        <Spinner />
+                    </p>}
             </div>
         )
     }
 }
 
-export default withError(Orders,axios);
+const mapStateToProps = state => {
+    return {
+        orders:state.order.orders
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchOrder : () => {dispatch(Actions.fetchOrders())}
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(withError(Orders,axios));

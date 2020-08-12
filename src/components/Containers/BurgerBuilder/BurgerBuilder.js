@@ -8,7 +8,8 @@ import axios from '../../../axios-order';
 import Spinner from '../../UI/Spinner/Spinner';
 import withError from '../../../HOC/withError';
 import { connect } from 'react-redux';
-import * as Actions from '../../../store/actions';
+// import * as Actions from '../../../store/actions/actionTypes';
+import * as BurgerActions from '../../../store/actions/index';
 
 // const INGREDIENT_PRICE = {
 //     salad:0.4,
@@ -40,6 +41,7 @@ class BurgerBuilder extends Component {
         // this.setState({
         //     ingredients:this.props.ingredients
         // })
+        this.props.initIngredient();
     }
 
     // addIngredientHandler = (type)=>{
@@ -114,8 +116,8 @@ class BurgerBuilder extends Component {
         //     pathname:'/checkout',
         //     search:'?'+queryString
         // });
+        this.props.initPurchase()
         this.props.history.push('/checkout');
-
     }
 
     render() {
@@ -128,7 +130,8 @@ class BurgerBuilder extends Component {
         }
         let orderSummary = null;
 
-        let burger = <Spinner />
+        let burger = this.props.error ? <p style={{textAlign:'center'}}>Unfortunately ingredients can't be loaded.</p> : <Spinner />;
+
         if(this.props.ingredients) {
             burger = (
                 <Aux>
@@ -151,9 +154,6 @@ class BurgerBuilder extends Component {
                     price={this.props.price}
                 />
             );
-            }
-            if(this.state.loading) {
-                orderSummary = <Spinner />
         }
 
         return (
@@ -172,15 +172,18 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        ingredients:state.ingredients,
-        price:state.price
+        ingredients:state.burger.ingredients,
+        price:state.burger.price,
+        error:state.burger.error
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addIngredient : (name) => { dispatch({type:Actions.ADD_INGREDIENT,ingredientName:name}) },
-        removeIngredient : (name) => { dispatch({type:Actions.REMOVE_INGREDIENT,ingredientName:name}) }
+        addIngredient : (name) => { dispatch(BurgerActions.addIngredient(name)) },
+        removeIngredient : (name) => { dispatch(BurgerActions.removeIngredient(name))},
+        initIngredient : () => {dispatch(BurgerActions.initIngredients())},
+        initPurchase : () => {dispatch(BurgerActions.purchaseInit())}
     }
 }
 

@@ -19,7 +19,7 @@ const Order = (props) => {
             <p style={{
                 margin:'5px 0'
             }}>Ingredient : {ingredients} </p>
-            <p>Price : ${props.price.toFixed(2)}</p>
+            <p>Price : ${props.price}</p>
         </div>
     )
 }
