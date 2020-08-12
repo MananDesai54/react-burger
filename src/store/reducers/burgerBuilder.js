@@ -1,4 +1,5 @@
 import * as Actions from '../actions/actionTypes';
+import updateState from './util';
 
 const initState = {
     ingredients:null,
@@ -17,32 +18,55 @@ const INGREDIENT_PRICE = {
 export default function(state=initState,action) {
     switch (action.type) {
         case Actions.ADD_INGREDIENT:
-            return {
-                ...state,
-                ingredients:{
-                    ...state.ingredients,
-                    [action.ingredientName]:state.ingredients[action.ingredientName]+1
-                },
-                price:state.price + INGREDIENT_PRICE[action.ingredientName]
+            const updatedIngredients = {
+                ...state.ingredients,
+                [action.ingredientName]:state.ingredients[action.ingredientName]+1                
+            };
+            const updatedState = {
+                ingredients:updatedIngredients,
+                price : state.price + INGREDIENT_PRICE[action.ingredientName]
             }
+            // return {
+            //     ...state,
+            //     ingredients:{
+            //         ...state.ingredients,
+            //         [action.ingredientName]:state.ingredients[action.ingredientName]+1
+            //     },
+            //     price:state.price + INGREDIENT_PRICE[action.ingredientName]
+            // }
+            return updateState(state,updatedState);
             
         case Actions.REMOVE_INGREDIENT:
-            return {
-                ...state,
-                ingredients:{
-                    ...state.ingredients,
-                    [action.ingredientName]:state.ingredients[action.ingredientName]-1
-                },
-                price:state.price + INGREDIENT_PRICE[action.ingredientName]
+            const updatedIngredient = {
+                ...state.ingredients,
+                [action.ingredientName]:state.ingredients[action.ingredientName]-1                
+            };
+            const updatedStates = {
+                ingredients:updatedIngredient,
+                price : state.price - INGREDIENT_PRICE[action.ingredientName]
             }
+            // return {
+            //     ...state,
+            //     ingredients:{
+            //         ...state.ingredients,
+            //         [action.ingredientName]:state.ingredients[action.ingredientName]-1
+            //     },
+            //     price:state.price + INGREDIENT_PRICE[action.ingredientName]
+            // }
+            return updateState(state,updatedStates);
 
-        case Actions.SET_INGREDIENT:
-            return {
-                ...state,
+        case Actions.SET_INGREDIENT : 
+            return updateState(state,{
                 ingredients:action.ingredients,
                 error:false,
                 price:4
-            }
+            })
+            // return {
+            //     ...state,
+            //     ingredients:action.ingredients,
+            //     error:false,
+            //     price:4
+            // }
 
         case Actions.FETCH_INGREDIENTS_FAILED:
             return {
