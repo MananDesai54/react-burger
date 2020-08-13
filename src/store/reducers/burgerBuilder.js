@@ -4,7 +4,8 @@ import updateState from './util';
 const initState = {
     ingredients:null,
     price:4,
-    error:false
+    error:false,
+    building:false
 }
 
 const INGREDIENT_PRICE = {
@@ -24,7 +25,8 @@ export default function(state=initState,action) {
             };
             const updatedState = {
                 ingredients:updatedIngredients,
-                price : state.price + INGREDIENT_PRICE[action.ingredientName]
+                price : state.price + INGREDIENT_PRICE[action.ingredientName],
+                building:true
             }
             // return {
             //     ...state,
@@ -43,7 +45,8 @@ export default function(state=initState,action) {
             };
             const updatedStates = {
                 ingredients:updatedIngredient,
-                price : state.price - INGREDIENT_PRICE[action.ingredientName]
+                price : state.price - INGREDIENT_PRICE[action.ingredientName],
+                building:true
             }
             // return {
             //     ...state,
@@ -59,7 +62,8 @@ export default function(state=initState,action) {
             return updateState(state,{
                 ingredients:action.ingredients,
                 error:false,
-                price:4
+                price:4,
+                building:false
             })
             // return {
             //     ...state,

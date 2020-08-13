@@ -14,7 +14,7 @@ const Toolbar = (props) => {
                 <Logo image={Burger} height='80%' />
             </Link>
             <nav>
-                <NavItems />
+                <NavItems isAuth={props.isAuth} />
             </nav>
         </header>
     )

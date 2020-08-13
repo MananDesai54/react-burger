@@ -95,7 +95,7 @@ class ContactData extends Component {
             price:this.props.price.toFixed(2),
             customer:orderDetails
         }
-        this.props.onPurchaseBurger(order);
+        this.props.onPurchaseBurger(order,this.props.token);
         // axios.post('/orders.json',order)
         //      .then(response=> {
         //         this.setState({
@@ -200,13 +200,14 @@ const mapStateToProps = state => {
     return {
         ingredients:state.burger.ingredients,
         price:state.burger.price,
-        loading:state.order.loading
+        loading:state.order.loading,
+        token:state.auth.token
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onPurchaseBurger:(orderData) => {dispatch(Order.purchaseBurger(orderData))}
+        onPurchaseBurger:(orderData,token) => {dispatch(Order.purchaseBurger(orderData,token))}
     }
 }
 

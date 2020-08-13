@@ -1,4 +1,5 @@
 import React,{ useState } from 'react';
+import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import Aux from '../../../HOC/Auxillary';
@@ -20,8 +21,8 @@ const Layout = props => {
 
     return (
         <Aux>
-            <Toolbar setShowSidebar={sidebarShow} />
-            <Sidebar show={showSidebar} setShowSidebar={hideSidebar} />
+            <Toolbar setShowSidebar={sidebarShow} isAuth={props.isAuth} />
+            <Sidebar show={showSidebar} setShowSidebar={hideSidebar} isAuth={props.isAuth} />
             <main className={classes.content}>
                 {props.children}
             </main>
@@ -33,4 +34,10 @@ Layout.propTypes = {
     props:PropTypes.object,
 }
 
-export default Layout;
+const mapStateToProps = state => {
+    return {
+        isAuth : state.auth.token !== null
+    }
+}
+
+export default connect(mapStateToProps)(Layout);

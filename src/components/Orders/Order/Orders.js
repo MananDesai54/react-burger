@@ -34,7 +34,7 @@ class Orders extends Component {
         //         })
         //     })
         if(this.props.orders.length === 0) {
-            this.props.fetchOrder();
+            this.props.fetchOrder(this.props.token);
         }
     }
 
@@ -50,11 +50,7 @@ class Orders extends Component {
                             price={order.price}
                         />
                     ))
-                    : <p style={{
-                        textAlign:'center'
-                    }}>
-                        <Spinner />
-                    </p>}
+                    : <Spinner />}
             </div>
         )
     }
@@ -62,13 +58,14 @@ class Orders extends Component {
 
 const mapStateToProps = state => {
     return {
-        orders:state.order.orders
+        orders:state.order.orders,
+        token:state.auth.token
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchOrder : () => {dispatch(Actions.fetchOrders())}
+        fetchOrder : (token) => {dispatch(Actions.fetchOrders(token))}
     }
 }
 
