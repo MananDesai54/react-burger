@@ -11,10 +11,10 @@ const Sidebar = (props) => {
     return (
         <Aux>
             <Backdrop close={props.setShowSidebar} show={props.show} />
-            <div className={[classes.Sidebar,props.show?classes.Open:classes.Close].join(' ')}>
+            <div className={[classes.Sidebar,props.show?classes.Open:classes.Close].join(' ')} onClick={props.setShowSidebar}>
                 <Logo image={Burger} height='40px' />
                 <nav>
-                    <NavItems />
+                    <NavItems isAuth={props.isAuth} />
                 </nav>
             </div>
         </Aux>
