@@ -19,7 +19,7 @@ import * as BurgerActions from '../../../store/actions/index';
 //     loading:false
 // }
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
 
     state = {
         // ingredients :null,
